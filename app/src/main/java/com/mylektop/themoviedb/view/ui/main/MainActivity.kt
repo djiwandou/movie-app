@@ -1,7 +1,8 @@
-package com.mylektop.themoviedb
+package com.mylektop.themoviedb.view.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.mylektop.themoviedb.R
 
 class MainActivity : AppCompatActivity() {
 
