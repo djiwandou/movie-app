@@ -15,4 +15,6 @@ val persistenceModule = module {
             .allowMainThreadQueries()
             .build()
     }
+
+    single { get<AppDatabase>().movieDao() }
 }

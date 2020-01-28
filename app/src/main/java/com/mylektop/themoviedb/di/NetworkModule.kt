@@ -1,8 +1,10 @@
 package com.mylektop.themoviedb.di
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.mylektop.themoviedb.api.RequestInterceptor
+import com.mylektop.themoviedb.api.client.DiscoverClient
+import com.mylektop.themoviedb.api.service.DiscoverService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,10 +13,14 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by MyLektop on 28/01/2020
  */
 val networkModule = module {
+
     single {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
         OkHttpClient.Builder()
             .addInterceptor(RequestInterceptor())
-            .addNetworkInterceptor(StethoInterceptor())
+            .addInterceptor(interceptor)
             .build()
     }
 
@@ -25,4 +31,10 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    single {
+        get<Retrofit>().create(DiscoverService::class.java)
+    }
+
+    single { DiscoverClient(get()) }
 }
