@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.mylektop.themoviedb.compose.DispatchViewModel
 import com.mylektop.themoviedb.models.entity.Movie
-import com.mylektop.themoviedb.repository.DiscoverRepository
+import com.mylektop.themoviedb.repository.MovieRepository
 
 /**
  * Created by MyLektop on 28/01/2020
  */
 class MainViewModel
-constructor(private val discoverRepository: DiscoverRepository) : DispatchViewModel() {
+constructor(private val movieRepository: MovieRepository) : DispatchViewModel() {
 
     private var moviePageLiveData: MutableLiveData<Int> = MutableLiveData()
     val movieListLiveData: LiveData<List<Movie>>
@@ -21,7 +21,7 @@ constructor(private val discoverRepository: DiscoverRepository) : DispatchViewMo
     init {
         this.movieListLiveData = moviePageLiveData.switchMap { page ->
             launchOnViewModelScope {
-                discoverRepository.loadMovies(page) {
+                movieRepository.loadMovies(page) {
                     toastLiveData.postValue(it)
                 }
             }

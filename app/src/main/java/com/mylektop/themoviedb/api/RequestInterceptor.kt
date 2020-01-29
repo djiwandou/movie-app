@@ -13,6 +13,7 @@ internal class RequestInterceptor : Interceptor {
         val originalUrl = originalRequest.url
         val url = originalUrl.newBuilder()
             .addQueryParameter("api_key", BuildConfig.API_KEY)
+            .addQueryParameter("language", "en-US")
             .build()
         val requestBuilder = originalRequest.newBuilder().url(url)
         val request = requestBuilder.build()

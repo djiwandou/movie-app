@@ -14,9 +14,9 @@ interface MovieDao {
     @Update
     fun updateMovie(movie: Movie)
 
-    @Query("SELECT * FROM Movie WHERE id = :id_")
+    @Query("SELECT * FROM movie WHERE id = :id_")
     fun getMovie(id_: Int): Movie
 
-    @Query("SELECT * FROM Movie WHERE page = :page_")
+    @Query("SELECT * FROM movie WHERE page = :page_")
     fun getMovieList(page_: Int): List<Movie>
 }

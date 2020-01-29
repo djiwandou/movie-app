@@ -1,15 +1,14 @@
 package com.mylektop.themoviedb.view.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mylektop.themoviedb.R
 import com.mylektop.themoviedb.compose.ViewModelActivity
 import com.mylektop.themoviedb.databinding.ActivityMainBinding
 import com.mylektop.themoviedb.models.entity.Movie
 import com.mylektop.themoviedb.view.adapter.MovieListAdapter
+import com.mylektop.themoviedb.view.ui.detail.DetailActivity
 import com.mylektop.themoviedb.view.viewholder.MovieListViewHolder
 import com.skydoves.baserecyclerviewadapter.RecyclerViewPaginator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,23 +26,22 @@ class MainActivity : ViewModelActivity(), MovieListViewHolder.Delegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        loadMore(page = 1)
+
         with(binding) {
             lifecycleOwner = this@MainActivity
             viewModel = mainViewModel
         }
 
         initializeUI()
-        loadMore(page = 1)
         observeMessages()
     }
 
-    override fun onItemClick(movie: Movie) {
-        Log.d("wkwkwk", movie.title)
-    }
+    override fun onItemClick(movie: Movie) = DetailActivity.startActivityModel(this, movie)
 
     private fun initializeUI() {
         recyclerViewMovie.adapter = MovieListAdapter(this)
-        recyclerViewMovie.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recyclerViewMovie.layoutManager = GridLayoutManager(this, 2)
 
         RecyclerViewPaginator(
             recyclerView = recyclerViewMovie,
@@ -51,13 +49,12 @@ class MainActivity : ViewModelActivity(), MovieListViewHolder.Delegate {
             loadMore = { loadMore(it) },
             onLast = { false }
         ).apply {
-            threshold = 1
+            threshold = 4
             currentPage = 1
         }
     }
 
     private fun loadMore(page: Int) = mainViewModel.postMoviePage(page)
 
-    private fun observeMessages() =
-        this.mainViewModel.toastLiveData.observe(this) { toast(it) }
+    private fun observeMessages() = this.mainViewModel.toastLiveData.observe(this) { toast(it) }
 }

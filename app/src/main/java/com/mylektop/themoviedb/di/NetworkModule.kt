@@ -1,8 +1,8 @@
 package com.mylektop.themoviedb.di
 
 import com.mylektop.themoviedb.api.RequestInterceptor
-import com.mylektop.themoviedb.api.client.DiscoverClient
-import com.mylektop.themoviedb.api.service.DiscoverService
+import com.mylektop.themoviedb.api.client.MovieClient
+import com.mylektop.themoviedb.api.service.MovieService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -33,8 +33,8 @@ val networkModule = module {
     }
 
     single {
-        get<Retrofit>().create(DiscoverService::class.java)
+        get<Retrofit>().create(MovieService::class.java)
     }
 
-    single { DiscoverClient(get()) }
+    single { MovieClient(get()) }
 }

@@ -2,6 +2,7 @@ package com.mylektop.themoviedb.view.viewholder
 
 import android.view.View
 import com.bumptech.glide.Glide
+import com.mylektop.themoviedb.R
 import com.mylektop.themoviedb.api.Api
 import com.mylektop.themoviedb.models.entity.Movie
 import com.skydoves.baserecyclerviewadapter.BaseViewHolder
@@ -28,11 +29,13 @@ class MovieListViewHolder(
 
             itemView.run {
                 item_movie_title.text = movie.title
-                item_movie_overview.text = movie.overview
+                item_movie_vote_average.rating = movie.vote_average / 2
+                item_movie_vote_average_number.text = movie.vote_average.toString()
 
                 movie.poster_path?.let {
                     Glide.with(context)
                         .load(Api.getPosterPath(it))
+                        .placeholder(R.mipmap.ic_launcher)
                         .into(item_movie_post)
                 }
             }
